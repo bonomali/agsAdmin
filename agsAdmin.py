@@ -108,7 +108,10 @@ def getServiceList(server, port, adminUser, adminPass, token=None):
 
     # Build up list of services at the root level
     for single in serviceList["services"]:
-        services.append(single['serviceName'] + '.' + single['type'])
+        #HACK - will list service names with localized characters.
+        # only way to use is to take the escaped characters and pass them back in.
+        service = urllib.quote(single['serviceName'].encode('utf8'))
+        services.append(service + '.' + single['type'])
      
     # Build up list of folders and remove the System and Utilities folder (we dont want anyone playing with them)
     folderList = serviceList["folders"]
@@ -148,8 +151,7 @@ if __name__ == "__main__":
     
         if args[1] == '/?':
             print "agsAdmin.exe utility provides a way to script ArcGIS Server administrative tasks. \n\
-            This module is built on python and compiled into an exe which you can call from command\n\
-            line or a batch file. Note that all admin usernames and passwords are sent in clear text."
+            Note that all admin usernames and passwords are sent in clear text."
             
             print "Usage: \n\
             List services: agsAdmin.exe server port adminUser adminPass list \n\
@@ -160,7 +162,7 @@ if __name__ == "__main__":
             \n\
             eg: agsAdmin.exe myServer 6080 admin p@$$w0rd list\n\
             eg: agsAdmin.exe myServer 6080 admin p@$$w0rd start ForestCover.MapService\n\
-            eg. agsAdmin.exe myServer 6080 admin p@$$w0rd stop all \n\
+            eg: agsAdmin.exe myServer 6080 admin p@$$w0rd stop all \n\
             "
         else:
             if len(args) < 6:
