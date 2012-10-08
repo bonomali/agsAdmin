@@ -2,7 +2,6 @@
 How to add your own functions and rebuild the agsAdmin.exe
 -----------------------------------------------------------
 The agsAdmin.py has the code for the agsAdmin.exe file.
-The agsAdmin.exe is so big because it contains the Python27.dll and other dependencies. (Thus it becomes portable)
 You can modify the setup.py file to control the creation of the .exe and not include Python dlls. (Make sure Python is installed on that machine if you do)
 
 
